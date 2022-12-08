@@ -1,0 +1,10 @@
+/*
+ * jquery-filestyle
+ * doc: http://markusslima.github.io/jquery-filestyle/
+ * github: https://github.com/markusslima/jquery-filestyle
+ *
+ * Copyright (c) 2017 Markus Vinicius da Silva Lima
+ * Version 2.1.0
+ * Licensed under the MIT license.
+ */
+ .jfilestyle{display: block;padding:0;position:relative;border-collapse:separate;width: 100%;margin-bottom: 15px;}div.jfilestyle input,div.jfilestyle label{padding:10px 15px;line-height:normal;font-size:14px;vertical-align:middle;font-family:sans-serif}div.jfilestyle input{border: 1px solid #f7f7f7;background-color: transparent;margin: 0 !important;border-radius: 5px;color: #777;cursor:default;height: 45px;line-height: 45px;border-color: #e9e8e8;width: 100% !important;}div.jfilestyle label{display:inline-block;border: 0;background: #292929;color: #ffffff;text-align:center;margin:0;width:auto;border-radius: 0 5px 5px 0;font-weight:400;position: absolute;right: 0;top: 0;height: 100%;line-height: 45px;padding: 0 15px;}div.jfilestyle.jfilestyle-corner input:last-child,div.jfilestyle.jfilestyle-corner label:last-child{margin-left:-1px}div.jfilestyle label[disabled]{pointer-events:none;opacity:.6;filter:alpha(opacity=65);cursor:not-allowed}div.jfilestyle label:hover{cursor:pointer;opacity:.9}div.jfilestyle .count-jfilestyle{background:#303030;color:#fff;border-radius:50%;padding:1px 5px;font-size:12px;vertical-align:middle}div.jfilestyle.jfilestyle-theme-blue label{border-color: #f1df78;background: #f1df78;color: #7a2216;border-radius: 10px;position: absolute;left: 5px;top: 5px;}div.jfilestyle.jfilestyle-theme-green label{border-color:#18a063;background:#18a063;color:#fff}div.jfilestyle.jfilestyle-theme-yellow label{border-color:#e8c821;background:#e8c821;color:#fff}div.jfilestyle.jfilestyle-theme-black label{border-color:#424242;background:#424242;color:#fff}div.jfilestyle.jfilestyle-theme-red label{border-color:#f33f3f;background:#f33f3f;color:#fff}div.jfilestyle.jfilestyle-theme-purple label{border-color:#873aff;background:#873aff;color:#fff}div.jfilestyle.jfilestyle-theme-asphalt label{border-color:#435673;background:#435673;color:#fff}

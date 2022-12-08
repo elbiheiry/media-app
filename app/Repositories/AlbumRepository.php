@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\AlbumResource;
 use App\Models\Album;
 
 class AlbumRepository 
@@ -10,31 +9,22 @@ class AlbumRepository
    public $model;
 
    public function __construct(Album $model)
-    {
+   {
       $this->model = $model;
-    }
-
-   public function listAll()
-   {
-      $objects = $this->model->all()->sortBy('id' , SORT_REGULAR);
- 
-      return AlbumResource::collection($objects)->response()->getData(true);
-   }
-
-   public function showById(Album $album)
-   {
-      return (new AlbumResource($album))->resolve();
    }
 
    public function create($request)
    {
-      $album = $this->model->create(['name' => $request->name]);
+      $album = $this->model->create(['name' => $request['name']]);
 
-      $album->addFromMediaLibraryRequest($request->get('images'))
-      ->toMediaCollection('images');
+      // foreach ($request['images'] as $image) {
+      //    $album->addMedia($image)
+      //    ->toMediaCollection('images' , 'media');
+      // }
+      
    }
 
-   public function edit($request , Album $album)
+   public function edit($request,$album)
    {
       $album->update($request);
    }

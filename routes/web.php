@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\MediaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('album' , AlbumController::class)->except('delete' , 'create');
+Route::resource('album' , AlbumController::class)->except('create');
+
+Route::name('media.')->prefix('media')->controller(MediaController::class)->group(function () {
+    Route::get('/{id}' , 'index')->name('index');
+    Route::post('/{id}/store' , 'store')->name('store');
+    Route::get('/{album_id}/edit/{id}' , 'edit')->name('edit');
+    Route::put('/{album_id}/update/{id}' , 'update')->name('update');
+    Route::delete('/delete/{id}' , 'destroy')->name('destroy');
+});

@@ -14,9 +14,14 @@ $(document).on('submit' , '.ajax-form' , function () {
         cache: false,
         processData:false,
         success : function (response) {
-            notification("success", response ,"fas fa-check");
+            notification("success", response.message ,"fas fa-check");
             setTimeout(function () {
-                window.location.reload();
+                if (response.url) {
+                    window.location.href = response.url;    
+                }else{
+                    window.location.reload();
+                }
+                
             }, 2000);
         },
         error : function (jqXHR) {
@@ -33,7 +38,11 @@ $(document).on('submit' , '.ajax-form' , function () {
     });
     return false;
 });
-
+$(".jfilestyle").jfilestyle({
+    // theme: "blue",
+    text: " Add Images ",
+    // placeholder: " Add images ",
+});
 
 //bootstrap notify
 function notification(type, message ,icon) {

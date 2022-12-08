@@ -2,32 +2,37 @@
 @section('content')
     <div class="container">
         <div class="page-content">
-            <form action="{{ route('album.store') }}" enctype="multipart/form-data" method="post" class="ajax-form">
+            <form action="{{ route('media.store', ['id' => $id]) }}" enctype="multipart/form-data" method="post"
+                class="ajax-form">
                 @method('post')
                 @csrf
                 <div class="widget">
                     <div class="widget-content">
                         <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Image </label>
+                                    <input type="file" class="jfilestyle" name="image" />
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input type="text" name="name" class="form-control">
                                 </div>
                             </div>
-                            {{-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Images </label>
-                                    <input type="file" class="jfilestyle" multiple name="images[]" />
-                                </div>
-                            </div> --}}
                         </div>
                         <div class="col-md-6">
-                            <button class="custom-btn green-bc">Store</button>
+                            <button class="custom-btn green-bc" type="submit">
+                                Store
+                            </button>
                         </div>
                     </div>
                 </div>
             </form>
             <div class="widget">
+                <div class="widget-title">Album images</div>
                 <div class="widget-content">
                     <div class="row">
                         <div class="col-12">
@@ -38,6 +43,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
+                                                <th>Image</th>
                                                 <th>Created at</th>
                                                 <th>Options</th>
                                             </tr>
@@ -70,7 +76,7 @@
             $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('album.index') }}",
+                ajax: "{{ route('media.index', ['id' => $id]) }}",
                 dom: 'Bfrtip',
                 columns: [{
                         data: 'DT_RowIndex',
@@ -79,6 +85,13 @@
                     {
                         data: 'name',
                         name: 'name'
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        render: function(data, type, full, meta) {
+                            return "<img src=\"" + data + "\" width=\"50\"/>";
+                        }
                     },
                     {
                         data: 'created_at',

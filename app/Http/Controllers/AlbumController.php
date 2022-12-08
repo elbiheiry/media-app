@@ -23,11 +23,29 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        $albums = $this->albumRepository->listAll();
+        if (request()->ajax()) {
+            $data = Album::get()->map(function ($query){
+                return [
+                    'id' => $query->id,
+                    'name' => $query->name,
+                    'created_at' => $query->created_at->format('d-m-Y')
+                ];
+            });
+            return datatables()->of($data)
+                ->addColumn('action', function($row){
+                    $btn = '';
+                    $btn = '<a class="custom-btn green-bc" href="'.route('media.index' , ['id' => $row['id']]).'" style="margin-right:5px;">Media</a>';
+                    $btn = $btn.'<a class="custom-btn blue-bc" href="'.route('album.edit' , ['album' => $row['id']]).'" style="margin-right:5px;">Edit</a>';
+                    $btn = $btn.'<button class="custom-btn red-bc delete-btn" data-url="'.route('album.destroy' , ['album' => $row['id']]).'">Delete</button>';
+                    
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
 
-        // dd($albums);
-
-        return view('albums.index' ,compact('albums'));
+        return view('albums.index');
     }
 
     /**
@@ -38,7 +56,28 @@ class AlbumController extends Controller
      */
     public function edit(Album $album)
     {
-        return view('albums.edit' ,compact('album'));
+        if (request()->ajax()) {
+            $data = $album->getMedia('images')->map(function ($query){
+                return [
+                    'id' => $query->id,
+                    'image' => $query->getUrl(),
+                    'created_at' => $query->created_at->format('d-m-Y')
+                ];
+            });
+            // dd($data);
+            return datatables()->of($data)
+                ->addColumn('action', function($row){
+                    $btn = '';
+                    $btn = '<a class="custom-btn blue-bc" href="'.route('album.edit' , ['album' => $row['id']]).'" style="margin-left:5px;">Edit</a>';
+                    // $btn = $btn.'<button class="custom-btn btn btn-danger delete-btn" data-url="'.route('album.destroy' , ['album' => $row['id']]).'">Delete</button>';
+                    
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('albums.edit' , compact('album'));
     }
 
     /**
@@ -74,5 +113,12 @@ class AlbumController extends Controller
         } catch (\Throwable $th) {
             return response()->json('Error , please try again later' , 400);
         }
+    }
+
+    public function destroy(Album $album)
+    {
+        $album->delete();
+
+        return redirect()->back();
     }
 }

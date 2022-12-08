@@ -2,8 +2,9 @@
 @section('content')
     <div class="container">
         <div class="page-content">
-            <form action="{{ route('album.store') }}" enctype="multipart/form-data" method="post" class="ajax-form">
-                @method('post')
+            <form action="{{ route('album.update', ['album' => $album->id]) }}" enctype="multipart/form-data" method="put"
+                class="ajax-form">
+                @method('put')
                 @csrf
                 <div class="widget">
                     <div class="widget-content">
@@ -11,23 +12,20 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" value="{{ $album->name }}">
                                 </div>
                             </div>
-                            {{-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Images </label>
-                                    <input type="file" class="jfilestyle" multiple name="images[]" />
-                                </div>
-                            </div> --}}
                         </div>
                         <div class="col-md-6">
-                            <button class="custom-btn green-bc">Store</button>
+                            <button class="custom-btn green-bc" type="submit">
+                                Store
+                            </button>
                         </div>
                     </div>
                 </div>
             </form>
             <div class="widget">
+                <div class="widget-title">Album images</div>
                 <div class="widget-content">
                     <div class="row">
                         <div class="col-12">
@@ -37,7 +35,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Name</th>
+                                                <th>Image</th>
                                                 <th>Created at</th>
                                                 <th>Options</th>
                                             </tr>
@@ -54,13 +52,6 @@
 @endsection
 @push('js')
     <script type="text/javascript">
-        //add delete url to form
-        $(document).on('click', '.delete-btn', function() {
-            var url = $(this).data('url');
-
-            $('#delete-form').attr('action', url);
-            $('#delete').modal('show');
-        });
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -70,15 +61,18 @@
             $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('album.index') }}",
+                ajax: "{{ route('album.edit', ['album' => $album->id]) }}",
                 dom: 'Bfrtip',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'image',
+                        name: 'image',
+                        render: function(data, type, full, meta) {
+                            return "<img src=\"" + data + "\" width=\"50\"/>";
+                        }
                     },
                     {
                         data: 'created_at',

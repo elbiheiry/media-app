@@ -5,9 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
-class AlbumRequest extends FormRequest
+class MediaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -40,6 +39,7 @@ class AlbumRequest extends FormRequest
     public function rules()
     {
         return [
+            'image' => $this->isMethod('post') ? ['required' , 'image' , 'max:2048' ,'mimes:png,jpg,jpeg'] : '',
             'name' => ['required' , 'string' , 'max:255']
         ];
     }
@@ -47,7 +47,8 @@ class AlbumRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'Album name'
+            'image' => 'Album image',
+            'name' => 'Image name'
         ];
     }
 }
