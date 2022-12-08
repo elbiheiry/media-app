@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('album' , AlbumController::class)->except('create');
+Route::get('/albums/chart' , [AlbumController::class , 'chart'])->name('album.chart');
 
 Route::name('media.')->prefix('media')->controller(MediaController::class)->group(function () {
     Route::get('/{id}' , 'index')->name('index');

@@ -14,12 +14,6 @@
                                     <input type="text" name="name" class="form-control">
                                 </div>
                             </div>
-                            {{-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Images </label>
-                                    <input type="file" class="jfilestyle" multiple name="images[]" />
-                                </div>
-                            </div> --}}
                         </div>
                         <div class="col-md-6">
                             <button class="custom-btn green-bc">Store</button>
@@ -30,7 +24,7 @@
             <div class="widget">
                 <div class="widget-content">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <div class="col">
                                 <div class="table-responsive-lg">
                                     <table id="datatable" class="table table-bordered table-striped" style="width:100%">
@@ -43,6 +37,14 @@
                                             </tr>
                                         </thead>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><b>Chart</b></div>
+                                <div class="panel-body">
+                                    <canvas id="canvas" height="280" width="600"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +98,42 @@
                 ]
             });
 
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
+    <script>
+        var url = "{{ route('album.chart') }}";
+        var Albums = new Array();
+        var Labels = new Array();
+        var count = new Array();
+        $(document).ready(function() {
+            $.get(url, function(response) {
+                response.forEach(function(data) {
+                    Albums.push(data.name);
+                    Labels.push(data.media_count);
+                });
+                var ctx = document.getElementById("canvas").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Albums,
+                        datasets: [{
+                            label: 'Album data',
+                            data: Labels,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
         });
     </script>
 @endpush

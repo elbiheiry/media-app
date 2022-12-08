@@ -91,7 +91,7 @@ class AlbumController extends Controller
         try {
             $this->albumRepository->create($request->all());
 
-            return response()->json('Album created successfully', 200);
+            return response()->json(['message' => 'Album created successfully'], 200);
         } catch (\Throwable $th) {
             return response()->json('Error , please try again later' , 400);
         }
@@ -109,7 +109,7 @@ class AlbumController extends Controller
         try {
             $this->albumRepository->edit($request->all() , $album);
 
-            return response()->json('Album data updated successfully' , 200);
+            return response()->json(['message' => 'Album data updated successfully'] , 200);
         } catch (\Throwable $th) {
             return response()->json('Error , please try again later' , 400);
         }
@@ -120,5 +120,12 @@ class AlbumController extends Controller
         $album->delete();
 
         return redirect()->back();
+    }
+
+    public function chart()
+    {
+        $data = Album::withCount('media')->orderBy('id' , 'desc')->get();
+
+        return response()->json($data);
     }
 }
