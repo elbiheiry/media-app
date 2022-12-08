@@ -1,0 +1,110 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:400, 600, 900&subset=devanagari, latin-ext);
+:root {
+    --main_color: #f6c84c;
+    --second_color: #292929;
+}
+*,
+:focus {
+    outline: 0 !important;
+}
+body {
+    font-family: Poppins, sans-serif !important;
+    overflow: hidden;
+    width: 100%;
+    font-weight: 400;
+    background-color: #f8f8f8;
+    letter-spacing: 1px;
+}
+.widget {
+    position: relative;
+    background-color: #fff;
+    margin: 10px auto 30px;
+    border-radius: 5px;
+    box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+}
+.widget-title {
+    border-bottom: 1px solid rgba(26, 54, 126, 0.125);
+    line-height: 30px;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--second_color);
+    font-size: 13px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.widget-title .custom-btn {
+    margin: 2px;
+    height: 30px;
+    float: right;
+    line-height: 30px;
+}
+.widget-title i {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 30px;
+}
+.widget-title .icon-btn {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    top: 0;
+    width: 45px;
+    line-height: 45px;
+    border-left: 1px solid rgba(26, 54, 126, 0.125);
+    background-color: transparent;
+    border-radius: 0;
+}
+.widget-title .icon-btn i {
+    margin: 0;
+    text-align: center;
+    color: var(--main_color);
+    line-height: 45px;
+}
+.widget .widget-title .title-action .icon-btn,
+.widget .widget-title .title-action a {
+    float: right;
+    border-radius: 0;
+    position: relative;
+}
+.widget .widget-title .title-action {
+    position: absolute;
+    height: 100%;
+    right: 0;
+    top: 0;
+    text-align: center;
+    line-height: 40px;
+    display: block;
+}
+.widget .widget-content {
+    margin: auto;
+    padding: 15px 25px;
+    width: 100%;
+}
+[data-notify="container"][class*="alert"] {
+    border-width: 0px;
+    border-radius: 50px;
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.3);
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+[data-notify="container"].alert-danger {
+    width: auto;
+}
+
+[data-notify="container"].alert-success {
+    width: auto;
+}
+
+[data-notify="container"][class*="alert-"]>[data-notify="icon"] {
+    display: inline;
+}
+
+[data-notify="container"][class*="alert-"]>[data-notify="message"] {
+    font-weight: 400;
+    display: inline;
+    text-align: center;
+    width: 100%;
+}

@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Repositories;
+
+class {{repository_name}} 
+{
+   public function listAll()
+   {
+    # code...
+   }
+
+   public function showById(Model $model)
+   {
+    # code...
+   }
+
+   public function create($request)
+   {
+    # code...
+   }
+
+   public function edit($request , Model $model)
+   {
+    # code...
+   }
+}
