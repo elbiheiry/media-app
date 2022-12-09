@@ -1,4 +1,39 @@
 @extends('layouts.master')
+@push('models')
+    <div class="modal fade " id="update">
+        <div class="modal-dialog">
+            <form class="modal-content ajax-form" id="update-form" method="post">
+                @csrf
+                @method('post')
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font: menu;">Please change album for all related media if wanted otherwise
+                        delete the album
+                        and related media</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Change album</label>
+                            <select name="album_id" class="form-control" id="album-input">
+                                <option value="0">Delete All</option>
+                                @foreach ($albums as $album)
+                                    <option value="{{ $album->id }}">{{ $album->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
+                        Close</button>
+                    <button type="submit" class="btn btn-danger ">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                </div>
+            </form><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+@endpush
 @section('content')
     <div class="container">
         <div class="page-content">
@@ -63,6 +98,17 @@
             $('#delete-form').attr('action', url);
             $('#delete').modal('show');
         });
+
+        //add change albums id  url to form
+        $(document).on('click', '.update-btn', function() {
+            var url = $(this).data('url');
+            var id = $(this).data('id');
+
+            $('#album-input').val(id);
+            $('#update-form').attr('action', url);
+            $('#update').modal('show');
+        });
+
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {

@@ -24,6 +24,36 @@
                     </div>
                 </div>
             </form>
+            <form action="{{ route('media.store', ['id' => $album->id]) }}" enctype="multipart/form-data" method="post"
+                class="ajax-form">
+                @method('post')
+                @csrf
+                <div class="widget">
+                    <div class="widget-title">Add new media</div>
+                    <div class="widget-content">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Image </label>
+                                    <input type="file" class="jfilestyle" name="image" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="custom-btn green-bc" type="submit">
+                                Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <div class="widget">
                 <div class="widget-title">Album images</div>
                 <div class="widget-content">
@@ -35,6 +65,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Name</th>
                                                 <th>Image</th>
                                                 <th>Created at</th>
                                                 <th>Options</th>
@@ -66,6 +97,10 @@
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
                     },
                     {
                         data: 'image',

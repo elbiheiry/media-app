@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    @stack('models')
     <div class="modal fade " id="delete">
         <div class="modal-dialog">
             <form class="modal-content" id="delete-form" method="post">

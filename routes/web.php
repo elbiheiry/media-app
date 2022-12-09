@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('album' , AlbumController::class)->except('create');
+//show albums charts 
 Route::get('/albums/chart' , [AlbumController::class , 'chart'])->name('album.chart');
+//change media ids if album is not empty
+Route::post('/albums/change-album-id/{id}' , [AlbumController::class , 'changeAlbumId'])->name('album.change');
 
 Route::name('media.')->prefix('media')->controller(MediaController::class)->group(function () {
     Route::get('/{id}' , 'index')->name('index');

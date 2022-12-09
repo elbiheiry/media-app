@@ -1,1 +1,2 @@
 # media-app
+Please if you have a problem while serving the project just follow this link to edit the problem in laravel media library : https://github.com/spatie/laravel-medialibrary/issues/2767#issuecomment-1061669009

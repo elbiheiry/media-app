@@ -23,11 +23,13 @@ class AlbumController extends Controller
      */
     public function index()
     {
+        $albums = Album::all()->sortByDesc('id');
         if (request()->ajax()) {
-            $data = Album::get()->map(function ($query){
+            $data = Album::withCount('media')->get()->map(function ($query){
                 return [
                     'id' => $query->id,
                     'name' => $query->name,
+                    'media_count' => $query->media_count,
                     'created_at' => $query->created_at->format('d-m-Y')
                 ];
             });
@@ -36,8 +38,11 @@ class AlbumController extends Controller
                     $btn = '';
                     $btn = '<a class="custom-btn green-bc" href="'.route('media.index' , ['id' => $row['id']]).'" style="margin-right:5px;">Media</a>';
                     $btn = $btn.'<a class="custom-btn blue-bc" href="'.route('album.edit' , ['album' => $row['id']]).'" style="margin-right:5px;">Edit</a>';
-                    $btn = $btn.'<button class="custom-btn red-bc delete-btn" data-url="'.route('album.destroy' , ['album' => $row['id']]).'">Delete</button>';
-                    
+                    if ($row['media_count'] == 0) {
+                        $btn = $btn.'<button class="custom-btn red-bc delete-btn" data-url="'.route('album.destroy' , ['album' => $row['id']]).'">Delete</button>';
+                    }else{
+                        $btn = $btn.'<button class="custom-btn red-bc update-btn" data-id="'.$row['id'].'" data-url="'.route('album.change' , ['id' => $row['id']]).'">Delete</button>';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -45,7 +50,7 @@ class AlbumController extends Controller
                 ->make(true);
         }
 
-        return view('albums.index');
+        return view('albums.index' , compact('albums'));
     }
 
     /**
@@ -60,16 +65,17 @@ class AlbumController extends Controller
             $data = $album->getMedia('images')->map(function ($query){
                 return [
                     'id' => $query->id,
+                    'name' => $query->name,
                     'image' => $query->getUrl(),
+                    'album_id' => $query->model_id,
                     'created_at' => $query->created_at->format('d-m-Y')
                 ];
             });
-            // dd($data);
             return datatables()->of($data)
                 ->addColumn('action', function($row){
                     $btn = '';
-                    $btn = '<a class="custom-btn blue-bc" href="'.route('album.edit' , ['album' => $row['id']]).'" style="margin-left:5px;">Edit</a>';
-                    // $btn = $btn.'<button class="custom-btn btn btn-danger delete-btn" data-url="'.route('album.destroy' , ['album' => $row['id']]).'">Delete</button>';
+                    $btn = '<a class="custom-btn blue-bc" href="'.route('media.edit' , ['album_id' => $row['album_id'] , 'id' => $row['id']]).'" style="margin-right:5px;">Edit</a>';
+                    $btn = $btn.'<button class="custom-btn red-bc delete-btn" data-url="'.route('media.destroy' , ['id' => $row['id']]).'">Delete</button>';
                     
                     return $btn;
                 })
@@ -115,6 +121,12 @@ class AlbumController extends Controller
         }
     }
 
+    /**
+     * delete album
+     *
+     * @param Album $album
+     * @return response
+     */
     public function destroy(Album $album)
     {
         $album->delete();
@@ -122,10 +134,36 @@ class AlbumController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * draw chart for all albums
+     *
+     * @return response
+     */
     public function chart()
     {
         $data = Album::withCount('media')->orderBy('id' , 'desc')->get();
 
         return response()->json($data);
+    }
+
+    public function changeAlbumId(Request $request, $id)
+    {
+        $album = Album::findOrFail($id);
+
+        try {
+            if ($request->album_id == 0) {
+                $album->delete();
+            }else{
+                $album->media()->update([
+                    'model_id' => $request->album_id
+                ]);
+                $album->delete();
+            }
+    
+            return response()->json(['message' => 'Album deleted successfully'], 200);
+        } catch (\Throwable $th) {
+            return response()->json('Error , please try again later' , 400);
+        }
+        
     }
 }
